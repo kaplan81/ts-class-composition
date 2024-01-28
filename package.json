@@ -4,12 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build-decorators": "npx tsc && node dist/decorators.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "tslib": "^2.6.2",
     "typescript": "^5.3.3"
-  }
+  },
+  "type": "module"
 }
