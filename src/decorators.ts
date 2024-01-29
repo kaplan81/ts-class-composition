@@ -11,16 +11,27 @@ if ((globalThis as any).performance.nodeTiming.name === 'node') {
   };
 }
 
-interface Composed {
-  menuOpen: boolean;
-  scope: Scope;
-  toggleMenu(): void;
-}
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Constructor<T = unknown> = new (...args: any[]) => T;
 
-type Scope = 'global' | 'module' | 'function' | 'block';
+interface Composed {
+  menuOpen: boolean;
+  state: State;
+  toggleMenu(): void;
+}
+
+interface State {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  entity: any | null;
+  loaded: boolean;
+  loading: boolean;
+}
+
+const initialState: State = {
+  entity: null,
+  loaded: false,
+  loading: false,
+};
 
 function CustomElementDecorator<T extends Constructor<HTMLElement>>(
   tagName: string
@@ -35,14 +46,14 @@ function CustomElementDecorator<T extends Constructor<HTMLElement>>(
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types
-function ScopeDecorator<T extends Constructor<{}>>(
-  scope: Scope
+function StateDecorator<T extends Constructor<{}>>(
+  initialState: State
 ): (target: T, context: ClassDecoratorContext) => T {
   return (target: T, context: ClassDecoratorContext) => {
-    console.log('ScopeDecorator');
+    console.log('StateDecorator');
     return context.kind === 'class'
       ? class extends target {
-          scope: Scope = scope;
+          state: State = initialState;
         }
       : target;
   };
@@ -68,7 +79,7 @@ function MenuDecorator<T extends Constructor<{}>>(): (
 
 interface Component extends Composed {}
 @CustomElementDecorator('custom-tag')
-@ScopeDecorator('global')
+@StateDecorator(initialState)
 @MenuDecorator()
 class Component extends HTMLElement {
   property = 'property';
@@ -84,7 +95,7 @@ class Component extends HTMLElement {
 }
 
 const component = new Component();
-console.log('component.scope:::', component.scope);
+console.log('component.state:::', component.state);
 console.log('component.tagName:::', component.tagName);
 console.log('component.menuOpen:::', component.menuOpen);
 component.toggleMenu();
