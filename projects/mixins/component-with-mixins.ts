@@ -1,22 +1,10 @@
+import '../web-api.patch.js';
 import {
   BehaviorSubject,
   MonoTypeOperatorFunction,
   Observable,
   shareReplay,
 } from 'rxjs';
-
-/**
- * This is needed to run the code
- * in a Node.js execution context.
- */
-if ((globalThis as any).performance.nodeTiming.name === 'node') {
-  (globalThis as any).HTMLElement = function hTMLElement() {
-    this.tagName = 'custom-tag';
-  };
-  (globalThis as any).customElements = {
-    define: (name: string, constructor: CustomElementConstructor) => void 0,
-  };
-}
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Constructor<T = {}> = new (...args: any[]) => T;
@@ -70,12 +58,26 @@ function shareReplayForMulticast<T>(): MonoTypeOperatorFunction<T> {
   return shareReplay({ bufferSize: 1, refCount: true });
 }
 
+export function CustomElementMixin<T extends Constructor<HTMLElement>>(
+  target: T,
+  tagName: string
+): Constructor<HTMLElement> & T {
+  console.log('CustomElementMixin');
+  return class extends target {
+    constructor(...args: any[]) {
+      super();
+      customElements.define(tagName, target);
+    }
+  };
+}
+
 // eslint-disable-next-line @typescript-eslint/ban-types
 export function StateMixin<T extends Constructor<{}>>(
-  Base: T,
+  target: T,
   initialState: State<EntityExample>
 ): Constructor<StateMixinFacade<State<EntityExample>>> & T {
-  return class extends Base {
+  console.log('StateMixin');
+  return class extends target {
     #dispatch$: BehaviorSubject<State<EntityExample>>;
     #initialState: State<EntityExample> = initialState;
     state$: Observable<State<EntityExample>>;
@@ -103,9 +105,10 @@ export function StateMixin<T extends Constructor<{}>>(
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export function MenuMixin<T extends Constructor<{}>>(
-  Base: T
+  target: T
 ): Constructor<Menu> & T {
-  return class extends Base {
+  console.log('MenuMixin');
+  return class extends target {
     menuOpen: boolean = false;
     toggleMenu(): void {
       this.menuOpen = !this.menuOpen;
@@ -113,7 +116,10 @@ export function MenuMixin<T extends Constructor<{}>>(
   };
 }
 
-class Component extends StateMixin(MenuMixin(HTMLElement), initialState) {
+class Component extends CustomElementMixin(
+  StateMixin(MenuMixin(HTMLElement), initialState),
+  'custom-tag'
+) {
   property = 'property';
 
   constructor() {
@@ -127,7 +133,6 @@ class Component extends StateMixin(MenuMixin(HTMLElement), initialState) {
 }
 
 const component = new Component();
-console.log(component);
 // console.log('component.state:::', component.state);
 // console.log('component.tagName:::', component.tagName);
 // console.log('component.menuOpen:::', component.menuOpen);

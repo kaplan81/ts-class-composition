@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build-decorators": "npx tsc --project ./projects/decorators && node dist/component-with-decorators.js",
-    "build-mixins": "npx tsc --project ./projects/mixins && node dist/component-with-mixins.js"
+    "build-decorators": "npm run clean-dist &&  npx tsc --project ./projects/decorators && node dist/component-with-decorators.js",
+    "build-mixins": "npm run clean-dist && npx tsc --project ./projects/mixins && node dist/component-with-mixins.js",
+    "clean-dist": "rm -rf dist"
   },
   "keywords": [],
   "author": "",
@@ -14,7 +15,7 @@
     "tslib": "^2.6.2",
     "typescript": "^5.3.3"
   },
-  "type": "module",
+  "type": "commonjs",
   "dependencies": {
     "rxjs": "^7.8.1"
   }

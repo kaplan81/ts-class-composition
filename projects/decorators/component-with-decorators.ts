@@ -1,18 +1,7 @@
-/**
- * This is needed to run the code
- * in a Node.js execution context.
- */
-if ((globalThis as any).performance.nodeTiming.name === 'node') {
-  (globalThis as any).HTMLElement = function hTMLElement() {
-    this.tagName = 'custom-tag';
-  };
-  (globalThis as any).customElements = {
-    define: (name: string, constructor: CustomElementConstructor) => void 0,
-  };
-}
+import '../web-api.patch.js';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-type Constructor<T = unknown> = new (...args: any[]) => T;
+type Constructor<T = {}> = new (...args: any[]) => T;
 
 interface Composed {
   menuOpen: boolean;
@@ -37,7 +26,6 @@ function CustomElementDecorator<T extends Constructor<HTMLElement>>(
   tagName: string
 ): (target: T, context: ClassDecoratorContext) => T {
   return (target: T, context: ClassDecoratorContext) => {
-    console.log('CustomElementDecorator');
     context.addInitializer(() => {
       customElements.define(tagName, target);
     });
