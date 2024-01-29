@@ -19,7 +19,7 @@ if ((globalThis as any).performance.nodeTiming.name === 'node') {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-type Constructor<T = unknown> = new (...args: any[]) => T;
+type Constructor<T = {}> = new (...args: any[]) => T;
 
 interface Composed extends State<EntityExample> {
   menuOpen: boolean;
@@ -49,6 +49,8 @@ interface StateMixinFacade<S> {
   resetState(): void;
   updateState(state: S): void;
 }
+
+const emptyBase: Constructor = class {};
 
 const initialState: State<EntityExample> = {
   ids: [1],
@@ -147,7 +149,8 @@ interface Component extends Composed {}
 // @CustomElementDecorator('custom-tag')
 // @StateDecorator(initialState)
 // @MenuDecorator()
-class Component extends HTMLElement {
+// class Component extends HTMLElement {
+class Component extends StateMixin(emptyBase, initialState) {
   property = 'property';
 
   constructor() {
@@ -161,8 +164,8 @@ class Component extends HTMLElement {
 }
 
 const component = new Component();
-console.log('component.state:::', component.state);
-console.log('component.tagName:::', component.tagName);
-console.log('component.menuOpen:::', component.menuOpen);
-component.toggleMenu();
-console.log('component.menuOpen:::', component.menuOpen);
+// console.log('component.state:::', component.state);
+// console.log('component.tagName:::', component.tagName);
+// console.log('component.menuOpen:::', component.menuOpen);
+// component.toggleMenu();
+// console.log('component.menuOpen:::', component.menuOpen);
