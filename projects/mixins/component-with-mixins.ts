@@ -5,13 +5,26 @@ import {
   shareReplay,
 } from 'rxjs';
 
+/**
+ * This is needed to run the code
+ * in a Node.js execution context.
+ */
+if ((globalThis as any).performance.nodeTiming.name === 'node') {
+  (globalThis as any).HTMLElement = function hTMLElement() {
+    this.tagName = 'custom-tag';
+  };
+  (globalThis as any).customElements = {
+    define: (name: string, constructor: CustomElementConstructor) => void 0,
+  };
+}
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Constructor<T = {}> = new (...args: any[]) => T;
 
-// interface Composed extends State<EntityExample> {
-//   menuOpen: boolean;
-//   toggleMenu(): void;
-// }
+interface Menu {
+  menuOpen: boolean;
+  toggleMenu(): void;
+}
 
 interface State<E> extends NgrxEntityState<E> {
   loaded: boolean;
@@ -88,26 +101,19 @@ export function StateMixin<T extends Constructor<{}>>(
   };
 }
 
-// // eslint-disable-next-line @typescript-eslint/ban-types
-// function MenuDecorator<T extends Constructor<{}>>(): (
-//   target: T,
-//   context: ClassDecoratorContext
-// ) => T {
-//   return (target: T, context: ClassDecoratorContext) => {
-//     console.log('MenuDecorator');
-//     return context.kind === 'class'
-//       ? class extends target {
-//           menuOpen: boolean = false;
-//           toggleMenu(): void {
-//             this.menuOpen = !this.menuOpen;
-//           }
-//         }
-//       : target;
-//   };
-// }
+// eslint-disable-next-line @typescript-eslint/ban-types
+export function MenuMixin<T extends Constructor<{}>>(
+  Base: T
+): Constructor<Menu> & T {
+  return class extends Base {
+    menuOpen: boolean = false;
+    toggleMenu(): void {
+      this.menuOpen = !this.menuOpen;
+    }
+  };
+}
 
-// interface Component extends Composed {}
-class Component extends StateMixin(emptyBase, initialState) {
+class Component extends StateMixin(MenuMixin(HTMLElement), initialState) {
   property = 'property';
 
   constructor() {
@@ -121,6 +127,7 @@ class Component extends StateMixin(emptyBase, initialState) {
 }
 
 const component = new Component();
+console.log(component);
 // console.log('component.state:::', component.state);
 // console.log('component.tagName:::', component.tagName);
 // console.log('component.menuOpen:::', component.menuOpen);
