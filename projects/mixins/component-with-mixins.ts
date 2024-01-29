@@ -3,6 +3,7 @@ import {
   MonoTypeOperatorFunction,
   Observable,
   shareReplay,
+  take,
 } from 'rxjs';
 import '../web-api.patch.js';
 
@@ -138,8 +139,12 @@ class Component extends CustomElementMixin(
 }
 
 const component = new Component();
-// console.log('component.state:::', component.state);
-// console.log('component.tagName:::', component.tagName);
-// console.log('component.menuOpen:::', component.menuOpen);
-// component.toggleMenu();
-// console.log('component.menuOpen:::', component.menuOpen);
+component.state$
+  .pipe(take(1))
+  .subscribe((state: State<EntityExample>) =>
+    console.log('component state:::', state)
+  );
+console.log('component.tagName:::', component.tagName);
+console.log('component.menuOpen:::', component.menuOpen);
+component.toggleMenu();
+console.log('component.menuOpen:::', component.menuOpen);

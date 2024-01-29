@@ -26,6 +26,7 @@ function CustomElementDecorator<T extends Constructor<HTMLElement>>(
   tagName: string
 ): (target: T, context: ClassDecoratorContext) => T {
   return (target: T, context: ClassDecoratorContext) => {
+    console.log('CustomElementDecorator');
     context.addInitializer(() => {
       customElements.define(tagName, target);
     });
