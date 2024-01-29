@@ -1,10 +1,10 @@
-import '../web-api.patch.js';
 import {
   BehaviorSubject,
   MonoTypeOperatorFunction,
   Observable,
   shareReplay,
 } from 'rxjs';
+import '../web-api.patch.js';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Constructor<T = {}> = new (...args: any[]) => T;
@@ -38,6 +38,11 @@ interface StateMixinFacade<S> {
   updateState(state: S): void;
 }
 
+/**
+ * Generally needed for mixin classes but
+ * not in this case since we take HTMLElement
+ * as parent class of the mixed component.
+ */
 const emptyBase: Constructor = class {};
 
 const initialState: State<EntityExample> = {
@@ -58,7 +63,7 @@ function shareReplayForMulticast<T>(): MonoTypeOperatorFunction<T> {
   return shareReplay({ bufferSize: 1, refCount: true });
 }
 
-export function CustomElementMixin<T extends Constructor<HTMLElement>>(
+function CustomElementMixin<T extends Constructor<HTMLElement>>(
   target: T,
   tagName: string
 ): Constructor<HTMLElement> & T {
@@ -72,7 +77,7 @@ export function CustomElementMixin<T extends Constructor<HTMLElement>>(
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types
-export function StateMixin<T extends Constructor<{}>>(
+function StateMixin<T extends Constructor<{}>>(
   target: T,
   initialState: State<EntityExample>
 ): Constructor<StateMixinFacade<State<EntityExample>>> & T {
@@ -104,7 +109,7 @@ export function StateMixin<T extends Constructor<{}>>(
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types
-export function MenuMixin<T extends Constructor<{}>>(
+function MenuMixin<T extends Constructor<{}>>(
   target: T
 ): Constructor<Menu> & T {
   console.log('MenuMixin');
