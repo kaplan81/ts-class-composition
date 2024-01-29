@@ -8,10 +8,10 @@ import {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Constructor<T = {}> = new (...args: any[]) => T;
 
-interface Composed extends State<EntityExample> {
-  menuOpen: boolean;
-  toggleMenu(): void;
-}
+// interface Composed extends State<EntityExample> {
+//   menuOpen: boolean;
+//   toggleMenu(): void;
+// }
 
 interface State<E> extends NgrxEntityState<E> {
   loaded: boolean;
@@ -106,11 +106,7 @@ export function StateMixin<T extends Constructor<{}>>(
 //   };
 // }
 
-interface Component extends Composed {}
-// @CustomElementDecorator('custom-tag')
-// @StateDecorator(initialState)
-// @MenuDecorator()
-// class Component extends HTMLElement {
+// interface Component extends Composed {}
 class Component extends StateMixin(emptyBase, initialState) {
   property = 'property';
 
