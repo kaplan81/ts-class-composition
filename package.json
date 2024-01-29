@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build-decorators": "npx tsc && node dist/decorators.js"
+    "build-decorators": "npx tsc --project ./projects/decorators && node dist/component-with-decorators.js",
+    "build-mixins": "npx tsc --project ./projects/mixins && node dist/component-with-mixins.js"
   },
   "keywords": [],
   "author": "",
