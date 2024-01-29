@@ -5,19 +5,6 @@ import {
   shareReplay,
 } from 'rxjs';
 
-/**
- * This is needed to run the code
- * in a Node.js execution context.
- */
-if ((globalThis as any).performance.nodeTiming.name === 'node') {
-  (globalThis as any).HTMLElement = function hTMLElement() {
-    this.tagName = 'custom-tag';
-  };
-  (globalThis as any).customElements = {
-    define: (name: string, constructor: CustomElementConstructor) => void 0,
-  };
-}
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Constructor<T = {}> = new (...args: any[]) => T;
 
@@ -69,32 +56,6 @@ const initialState: State<EntityExample> = {
 function shareReplayForMulticast<T>(): MonoTypeOperatorFunction<T> {
   return shareReplay({ bufferSize: 1, refCount: true });
 }
-
-// function CustomElementDecorator<T extends Constructor<HTMLElement>>(
-//   tagName: string
-// ): (target: T, context: ClassDecoratorContext) => T {
-//   return (target: T, context: ClassDecoratorContext) => {
-//     console.log('CustomElementDecorator');
-//     context.addInitializer(() => {
-//       customElements.define(tagName, target);
-//     });
-//     return target;
-//   };
-// }
-
-// // eslint-disable-next-line @typescript-eslint/ban-types
-// function StateDecorator<T extends Constructor<{}>>(
-//   initialState: State
-// ): (target: T, context: ClassDecoratorContext) => T {
-//   return (target: T, context: ClassDecoratorContext) => {
-//     console.log('StateDecorator');
-//     return context.kind === 'class'
-//       ? class extends target {
-//           state: State = initialState;
-//         }
-//       : target;
-//   };
-// }
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export function StateMixin<T extends Constructor<{}>>(
