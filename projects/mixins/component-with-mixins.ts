@@ -1,11 +1,4 @@
-import {
-  BehaviorSubject,
-  MonoTypeOperatorFunction,
-  Observable,
-  shareReplay,
-  take,
-} from 'rxjs';
-import '../web-api.patch.js';
+import * as rxjs from 'rxjs';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Constructor<T = {}> = new (...args: any[]) => T;
@@ -34,7 +27,7 @@ interface EntityExample {
 }
 
 interface StateMixinFacade<S> {
-  state$: Observable<S>;
+  state$: rxjs.Observable<S>;
   resetState(): void;
   updateState(state: S): void;
 }
@@ -60,8 +53,8 @@ const initialState: State<EntityExample> = {
   loading: false,
 };
 
-function shareReplayForMulticast<T>(): MonoTypeOperatorFunction<T> {
-  return shareReplay({ bufferSize: 1, refCount: true });
+function shareReplayForMulticast<T>(): rxjs.MonoTypeOperatorFunction<T> {
+  return rxjs.shareReplay({ bufferSize: 1, refCount: true });
 }
 
 function CustomElementMixin<T extends Constructor<HTMLElement>>(
@@ -84,14 +77,14 @@ function StateMixin<T extends Constructor<{}>>(
 ): Constructor<StateMixinFacade<State<EntityExample>>> & T {
   console.log('StateMixin');
   return class extends target {
-    #dispatch$: BehaviorSubject<State<EntityExample>>;
+    #dispatch$: rxjs.BehaviorSubject<State<EntityExample>>;
     #initialState: State<EntityExample> = initialState;
-    state$: Observable<State<EntityExample>>;
+    state$: rxjs.Observable<State<EntityExample>>;
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     constructor(...args: any[]) {
       super(...args);
-      this.#dispatch$ = new BehaviorSubject<State<EntityExample>>(
+      this.#dispatch$ = new rxjs.BehaviorSubject<State<EntityExample>>(
         this.#initialState
       );
       this.state$ = this.#dispatch$
@@ -140,7 +133,7 @@ class Component extends CustomElementMixin(
 
 const component = new Component();
 component.state$
-  .pipe(take(1))
+  .pipe(rxjs.take(1))
   .subscribe((state: State<EntityExample>) =>
     console.log('component state:::', state)
   );

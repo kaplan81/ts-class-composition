@@ -1,17 +1,21 @@
 {
   "name": "ts-class-composition-repo",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Demo on TypeScript class composition",
   "scripts": {
-    "build-decorators": "npm run clean-dist &&  npx tsc --project ./projects/decorators && node dist/component-with-decorators.js",
-    "build-mixins": "npm run clean-dist && npx tsc --project ./projects/mixins && node dist/component-with-mixins.js",
-    "clean-dist": "rm -rf dist"
+    "build-decorators": "npm run clean-dist && npx tsc --project ./projects/decorators && npm run load-decorators-app $npm_config_verflag",
+    "build-mixins": "npm run clean-dist && npx tsc --project ./projects/mixins && npm run load-mixins-app",
+    "clean-dist": "rm -rf dist",
+    "load-decorators-app": "node projects/decorators/app.js",
+    "load-mixins-app": "cp projects/mixins/index.html dist/ && node projects/mixins/app.js",
+    "serve": "http-server ./dist -p 8080",
+    "start": "npm run serve"
   },
-  "keywords": [],
-  "author": "",
+  "author": "Andres Gesteira aka Kaplan",
   "license": "ISC",
   "devDependencies": {
+    "http-server": "^14.1.1",
+    "open": "^10.0.3",
     "tslib": "^2.6.2",
     "typescript": "^5.3.3"
   },

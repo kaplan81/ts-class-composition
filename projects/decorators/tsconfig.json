@@ -1,4 +1,8 @@
 {
   "extends": "../../tsconfig.json",
-  "include": ["./component-with-decorators.ts"]
+  "include": [
+    "component-with-decorators-v1.ts",
+    "component-with-decorators-v2.ts",
+    "component-with-decorators-v3.ts"
+  ]
 }
