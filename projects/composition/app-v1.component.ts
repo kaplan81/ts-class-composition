@@ -37,5 +37,5 @@
 
   console.log('C p:::', component.property);
   console.log('C m:::', component.method());
-  console.log('C r:::', component.rendering);
+  console.log('C r:::', component.rendering); // <---
 })();
