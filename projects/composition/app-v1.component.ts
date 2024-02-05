@@ -1,9 +1,7 @@
 (() => {
   type Constructor<T = {}> = new (...args: any[]) => T;
 
-  interface ComposedApp extends RenderingApp {}
-
-  interface RenderingApp {
+  interface ComposedApp {
     components: RenderedComponentMap;
   }
 
@@ -19,7 +17,7 @@
   ]);
 
   function RenderingDecorator<B extends Constructor>(
-    renderingApp: RenderingApp
+    renderingApp: Pick<ComposedApp, 'components'>
   ): (Base: B, context: ClassDecoratorContext) => B {
     return (Base: B, context: ClassDecoratorContext) => {
       return context.kind === 'class'
@@ -37,10 +35,6 @@
   class AppComponent {
     property = 'property';
 
-    constructor() {
-      console.log('AppComponent');
-    }
-
     method(): string {
       return 'method';
     }
@@ -55,7 +49,7 @@
     component.components.get(eagerComponent)
   );
   console.log(
-    'AppComponent components.get(eagerComponent) <---:::',
+    'AppComponent components.get(lazyComponent) <---:::',
     component.components.get(lazyComponent)
   );
 })();
