@@ -20,7 +20,7 @@
 
   function RenderingDecorator<B extends Constructor>(
     renderingApp: RenderingApp
-  ): (base: B, context: ClassDecoratorContext) => B {
+  ): (Base: B, context: ClassDecoratorContext) => B {
     return (Base: B, context: ClassDecoratorContext) => {
       return context.kind === 'class'
         ? class extends Base {
