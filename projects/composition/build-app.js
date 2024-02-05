@@ -30,9 +30,7 @@ fs.readFile(jsFileDistPath, encoding, (err, data) => {
       console.error('Error writing file:', err);
       return;
     }
-    console.log(
-      'app-vx.component.js has been successfully compiled and modified.'
-    );
+    console.log(`${jsFileName} has been successfully compiled and modified`);
     fs.readFile(indexFileDistPath, encoding, (err, data) => {
       if (err) {
         console.error('Error reading file:', err);
