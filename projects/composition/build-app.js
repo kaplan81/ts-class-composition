@@ -36,9 +36,8 @@ fs.readFile(jsFileDistPath, encoding, (err, data) => {
         console.error('Error reading file:', err);
         return;
       }
-      const distIndexPath = `dist/${indexFileName}`;
       const modifiedContent = data.replace('{{MODULE_PATH}}', jsFileName);
-      fs.writeFile(distIndexPath, modifiedContent, 'utf8', (err) => {
+      fs.writeFile(indexFileDistPath, modifiedContent, 'utf8', (err) => {
         if (err) {
           console.error('Error writing file:', err);
           return;
