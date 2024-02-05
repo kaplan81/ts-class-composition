@@ -3,6 +3,7 @@
   "include": [
     "app-v1.component.ts",
     "app-v2.component.ts",
-    "app-v3.component.ts"
+    "app-v3.component.ts",
+    "app-v4.component.ts"
   ]
 }

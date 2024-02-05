@@ -57,6 +57,17 @@ import * as rxjs from 'rxjs';
     return rxjs.shareReplay({ bufferSize: 1, refCount: true });
   }
 
+  // function CustomElementDecorator<B extends Constructor<HTMLElement>>(
+  //   tagName: string
+  // ): (Base: B, context: ClassDecoratorContext) => B {
+  //   return (Base: B, context: ClassDecoratorContext) => {
+  //     context.addInitializer(() => {
+  //       customElements.define(tagName, Base);
+  //     });
+  //     return Base;
+  //   };
+  // }
+
   function RenderingDecorator<B extends Constructor>(
     renderingApp: Pick<ComposedApp, 'components'>
   ): (Base: B, context: ClassDecoratorContext) => B {
@@ -117,12 +128,14 @@ import * as rxjs from 'rxjs';
   }
 
   interface AppComponent extends ComposedApp {}
+  // @CustomElementDecorator('custom-tag')
   @RenderingDecorator({
     components,
   })
   @StateDecorator(initialState)
   @MenuDecorator()
-  class AppComponent {
+  // @CustomElementDecorator('custom-tag')
+  class AppComponent extends HTMLElement {
     property = 'property';
 
     method(): string {
