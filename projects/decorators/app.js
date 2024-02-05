@@ -18,7 +18,7 @@ fs.readFile(indexPath, 'utf8', (err, data) => {
     return;
   }
   const distIndexPath = `dist/${indexFileName}`;
-  const modifiedContent = data.replace('{{SCRIPT_PATH}}', jsFilePath);
+  const modifiedContent = data.replace('{{MODULE_PATH}}', jsFilePath);
   fs.writeFile(distIndexPath, modifiedContent, 'utf8', (err) => {
     if (err) {
       console.error('Error writing file:', err);
