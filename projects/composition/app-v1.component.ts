@@ -48,8 +48,14 @@
 
   const component = new AppComponent();
 
-  console.log('C p:::', component.property);
-  console.log('C m:::', component.method());
-  console.log('C r:::', component.components.get(eagerComponent)); // <---
-  console.log('C r:::', component.components.get(lazyComponent)); // <---
+  console.log('AppComponent property:::', component.property);
+  console.log('AppComponent method():::', component.method());
+  console.log(
+    'AppComponent components.get(eagerComponent):::',
+    component.components.get(eagerComponent)
+  ); // <---
+  console.log(
+    'AppComponent components.get(eagerComponent):::',
+    component.components.get(lazyComponent)
+  ); // <---
 })();
