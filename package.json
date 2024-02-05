@@ -7,7 +7,7 @@
     "build-decorators": "npm run clean-dist && npx tsc --project ./projects/decorators && npm run load-decorators-app $npm_config_verflag",
     "build-mixins": "npm run clean-dist && npx tsc --project ./projects/mixins && npm run load-mixins-app",
     "clean-dist": "rm -rf dist",
-    "copy-files": "cp projects/composition/index.html dist/ && cp projects/composition/favicon.ico dist/",
+    "copy-files": "cp projects/composition/rxjs.js dist/ && cp projects/composition/index.html dist/ && cp projects/composition/favicon.ico dist/",
     "load-decorators-app": "node projects/decorators/app.js",
     "load-mixins-app": "cp projects/mixins/index.html dist/ && node projects/mixins/app.js",
     "serve": "http-server ./dist -p 8080 -o",
