@@ -18,7 +18,7 @@
     [lazyComponent, 'lazy'],
   ]);
 
-  function RenderingDecorator<B extends Constructor<{}>>(
+  function RenderingDecorator<B extends Constructor>(
     renderingApp: RenderingApp
   ): (base: B, context: ClassDecoratorContext) => B {
     return (Base: B, context: ClassDecoratorContext) => {
