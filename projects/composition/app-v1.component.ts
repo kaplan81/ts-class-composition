@@ -38,7 +38,7 @@
     property = 'property';
 
     constructor() {
-      console.log('Component');
+      console.log('AppComponent');
     }
 
     method(): string {
