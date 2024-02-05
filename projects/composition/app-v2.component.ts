@@ -69,12 +69,12 @@ import * as rxjs from 'rxjs';
     };
   }
 
-  function StateDecorator<T extends Constructor>(
+  function StateDecorator<B extends Constructor>(
     initialState: State<EntityExample>
-  ): (target: T, context: ClassDecoratorContext) => T {
-    return (target: T, context: ClassDecoratorContext) => {
+  ): (Base: B, context: ClassDecoratorContext) => B {
+    return (Base: B, context: ClassDecoratorContext) => {
       return context.kind === 'class'
-        ? class extends target {
+        ? class extends Base {
             #dispatch$: rxjs.BehaviorSubject<State<EntityExample>>;
             #initialState: State<EntityExample> = initialState;
             state$: rxjs.Observable<State<EntityExample>>;
@@ -96,23 +96,23 @@ import * as rxjs from 'rxjs';
               this.#dispatch$.next(state);
             }
           }
-        : target;
+        : Base;
     };
   }
 
-  function MenuDecorator<T extends Constructor>(): (
-    target: T,
+  function MenuDecorator<B extends Constructor>(): (
+    Base: B,
     context: ClassDecoratorContext
-  ) => T {
-    return (target: T, context: ClassDecoratorContext) => {
+  ) => B {
+    return (Base: B, context: ClassDecoratorContext) => {
       return context.kind === 'class'
-        ? class extends target {
+        ? class extends Base {
             menuOpen: boolean = false;
             toggleMenu(): void {
               this.menuOpen = !this.menuOpen;
             }
           }
-        : target;
+        : Base;
     };
   }
 
