@@ -51,11 +51,11 @@
   console.log('AppComponent property:::', component.property);
   console.log('AppComponent method():::', component.method());
   console.log(
-    'AppComponent components.get(eagerComponent):::',
+    'AppComponent components.get(eagerComponent) <---:::',
     component.components.get(eagerComponent)
-  ); // <---
+  );
   console.log(
-    'AppComponent components.get(eagerComponent):::',
+    'AppComponent components.get(eagerComponent) <---:::',
     component.components.get(lazyComponent)
-  ); // <---
+  );
 })();
