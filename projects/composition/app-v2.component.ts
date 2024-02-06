@@ -135,7 +135,8 @@ import * as rxjs from 'rxjs';
   @StateDecorator(initialState)
   @MenuDecorator()
   // @CustomElementDecorator('custom-tag')
-  class AppComponent extends HTMLElement {
+  // class AppComponent extends HTMLElement {
+  class AppComponent {
     property = 'property';
 
     method(): string {
