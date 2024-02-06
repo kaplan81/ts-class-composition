@@ -1,3 +1,7 @@
+/**
+ * COMPOSITION WITH ONE DECORATOR
+ */
+
 (() => {
   type Constructor<T = {}> = new (...args: any[]) => T;
 

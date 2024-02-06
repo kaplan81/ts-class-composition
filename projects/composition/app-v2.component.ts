@@ -1,5 +1,9 @@
 import * as rxjs from 'rxjs';
 
+/**
+ * COMPOSITION WITH SEVERAL DECORATORS
+ */
+
 (() => {
   type Constructor<T = {}> = new (...args: any[]) => T;
 
